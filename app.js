@@ -3,16 +3,25 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT;
 const cors = require("cors");
-const repoRoute = require("./Routes/repo");
-const tagsRoute = require('./Routes/tags')
+const mongodb = require('./config/dbConnect');
+const routes = require('./Routes/Route');
 
-app.use(cors())
-app.use(express.json())
+(async () => {
+    try {
+        await mongodb.connect()
+        app.use(cors())
 
-const dbConnect = require('./config/dbConnect');
-dbConnect()
+        app.use(express.json())
 
-app.use("/repo",repoRoute)
-app.use("/tags",tagsRoute)
+        app.use('/api', routes)
 
-app.listen(PORT, () => console.log(`Server is running on port-${PORT}`));
+        const port = process.env.PORT
+
+        app.listen(port, () => {
+            console.log("server running in port ", port)
+        })
+    }
+    catch (err) {
+        console.log("Error in connecting to DB",)
+    }
+})();
