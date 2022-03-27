@@ -13,7 +13,7 @@ const routes = require('./Routes/Route');
 
         app.use(express.json())
 
-        app.use('/api', routes)
+        app.use('/', routes)
 
         const port = process.env.PORT
 
