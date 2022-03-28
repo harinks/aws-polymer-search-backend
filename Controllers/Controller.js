@@ -5,7 +5,7 @@ exports.getRepo = (async (req, res) => {
     console.log(req.query)
     if (Object.keys(req.query).length === 0) {
 
-        console.log("in")
+        //console.log("in")
 
         let repos = await mongo.repo.find().toArray()
         res.status(200).send(repos)
@@ -16,7 +16,7 @@ exports.getRepo = (async (req, res) => {
         query['$and'] = [];
 
         for (let key in req.query) {
-            console.log(key, req.query[key])
+            //console.log(key, req.query[key])
 
             if (key === "stargazers_count" || key === "forks_count" || key === "watchers_count" || key === "open_issues_count") {
 
@@ -44,10 +44,10 @@ exports.getRepo = (async (req, res) => {
 
             }
         }
-        console.log(query)
+        //console.log(query)
 
         let repos = await mongo.repo.find(query).toArray()
-        console.log(repos)
+        //console.log(repos)
         res.status(200).send(repos)
     }
 });
@@ -58,7 +58,7 @@ exports.getTags = (async (req, res) => {
         { $group: { _id: "$language", count: { $sum: 1 } } },
         { $project: { _id: 0, language: "$_id", count: 1 } }]).toArray()
 
-    console.log(language)
+    //console.log(language)
     res.send(language)
     
 });
